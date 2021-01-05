@@ -56,6 +56,12 @@ class ObjectTypeFilter(django_filters.Filter):
         super().__init__(*args, **kwargs)
 
 
+class MetadataFilter(ListObjectTypeFilter):
+    def __init__(self, *args, **kwargs):
+        input_class = "saleor.graphql.meta.mutations.MetadataInput"
+        super().__init__(input_class, method=filter_metadata, *args, **kwargs)
+
+
 def filter_created_at(qs, _, value):
     return filter_range_field(qs, "created_at", value)
 
@@ -68,6 +74,14 @@ def filter_status(qs, _, value):
     if not value:
         return qs
     return qs.filter(status=value)
+
+
+def filter_metadata(qs, _, value):
+    for metadata_item in value:
+        lookup = "__".join(["metadata", metadata_item.key])
+        qs = qs.filter(**{lookup: metadata_item.value})
+
+    return qs
 
 
 class BaseJobFilter(django_filters.FilterSet):

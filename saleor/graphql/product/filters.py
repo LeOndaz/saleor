@@ -16,7 +16,12 @@ from ...product.models import Category, Collection, Product, ProductType, Produc
 from ...search.backends import picker
 from ...warehouse.models import Stock
 from ..channel.filters import get_channel_slug_from_filter_data
-from ..core.filters import EnumFilter, ListObjectTypeFilter, ObjectTypeFilter
+from ..core.filters import (
+    EnumFilter,
+    ListObjectTypeFilter,
+    MetadataFilter,
+    ObjectTypeFilter,
+)
 from ..core.types import ChannelFilterInputObjectType, FilterInputObjectType
 from ..core.types.common import IntRangeInput, PriceRangeInput
 from ..utils import get_nodes, resolve_global_ids_to_primary_keys
@@ -312,6 +317,7 @@ class ProductFilter(django_filters.FilterSet):
     stocks = ObjectTypeFilter(input_class=ProductStockFilterInput, method=filter_stocks)
     search = django_filters.CharFilter(method=filter_search)
     ids = GlobalIDMultipleChoiceFilter(field_name="id")
+    metadata = MetadataFilter()
 
     class Meta:
         model = Product
@@ -359,6 +365,7 @@ class CollectionFilter(django_filters.FilterSet):
         method=filter_fields_containing_value("slug", "name")
     )
     ids = GlobalIDMultipleChoiceFilter(field_name="id")
+    metadata = MetadataFilter()
 
     class Meta:
         model = Collection
@@ -378,6 +385,7 @@ class CategoryFilter(django_filters.FilterSet):
         method=filter_fields_containing_value("slug", "name", "description")
     )
     ids = GlobalIDMultipleChoiceFilter(field_name="id")
+    metadata = MetadataFilter()
 
     class Meta:
         model = Category
@@ -395,6 +403,7 @@ class ProductTypeFilter(django_filters.FilterSet):
 
     product_type = EnumFilter(input_class=ProductTypeEnum, method=filter_product_type)
     ids = GlobalIDMultipleChoiceFilter(field_name="id")
+    metadata = MetadataFilter()
 
     class Meta:
         model = ProductType
