@@ -4,8 +4,9 @@ class AttributeInputType:
     DROPDOWN = "dropdown"
     MULTISELECT = "multiselect"
     FILE = "file"
+    BOOLEAN = "boolean"
 
-    CHOICES = [(DROPDOWN, "Dropdown"), (MULTISELECT, "Multi Select"), (FILE, "File")]
+    CHOICES = [(DROPDOWN, "Dropdown"), (MULTISELECT, "Multi Select"), (FILE, "File"), (BOOLEAN, "Boolean")]
     # list of the input types that can be used in variant selection
     ALLOWED_IN_VARIANT_SELECTION = [DROPDOWN]
 
