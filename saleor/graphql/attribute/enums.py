@@ -12,3 +12,4 @@ class AttributeValueType(graphene.Enum):
     GRADIENT = "GRADIENT"
     URL = "URL"
     STRING = "STRING"
+    BOOLEAN = "BOOLEAN"

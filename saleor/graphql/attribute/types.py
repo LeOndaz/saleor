@@ -1,3 +1,4 @@
+import json
 import re
 
 import graphene
@@ -27,7 +28,15 @@ def resolve_attribute_value_type(attribute_value):
         return AttributeValueType.GRADIENT
     if "://" in attribute_value:
         return AttributeValueType.URL
+    try:
+        value = json.loads(attribute_value)
+        if isinstance(value, bool):
+            return AttributeValueType.BOOLEAN
+    except json.decoder.JSONDecodeError:
+        pass
+    
     return AttributeValueType.STRING
+
 
 
 class AttributeValue(CountableDjangoObjectType):
